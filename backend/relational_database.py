@@ -71,8 +71,8 @@ def similarity_search(request: SimilarityRequest):
     )
     device_tokens = {k: v.to(device=DEVICE) for k, v in tokens.items()}
     docs_embeddings = model(**device_tokens)[0][:, 0].detach().cpu().numpy()
-    D, I = index.search(normalize_vectors(docs_embeddings), 5)
-    id_list = I.flatten().tolist()
+    _, idx = index.search(normalize_vectors(docs_embeddings), 5)
+    id_list = idx.flatten().tolist()
     stmt = select(Chunk).where(Chunk.id.in_(id_list))
     with Session(engine) as session:
         chunk_results = session.scalars(stmt).all()
@@ -83,4 +83,3 @@ def similarity_search(request: SimilarityRequest):
 
 if __name__ == "__main__":
     uvicorn.run(app, port=8001)
-"--------------------------------------------------------------------------------"
