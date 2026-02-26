@@ -2,7 +2,6 @@ from typing import List
 
 from pypdf import PdfReader
 
-import torch
 import numpy as np
 import torch.nn as nn
 
@@ -59,7 +58,7 @@ class PdfChunkReader():
                 yield line
 
     def get_chunks(self):
-        if self.pdf_chunks != None:
+        if self.pdf_chunks is not None:
             return self.pdf_chunks
         
         pdf_chunks = []
