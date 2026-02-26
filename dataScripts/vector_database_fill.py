@@ -58,6 +58,6 @@ class FaissLoader:
 if __name__ == "__main__":
     embedding_class = TextEmbedding(model_name='Snowflake/snowflake-arctic-embed-l-v2.0', device="cpu")
     faiss_loader = FaissLoader(embedding_class=embedding_class)
-    faiss_loader.load_and_save_database(folder_path= "C:\\main\\GitHub\\documentReviewSystem\\knowledge_data",
-                                        save_to= "C:\\main\\GitHub\\documentReviewSystem\\project_data\\vector_db.index",
+    faiss_loader.load_and_save_database(folder_path= "C:\\main\\Git\\uni_practice\\edu-auditor\\DataDocs",
+                                        save_to= "C:\\main\\Git\\uni_practice\\edu-auditor\\vector_db.index",
                                         engine= engine)

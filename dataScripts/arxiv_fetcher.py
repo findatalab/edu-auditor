@@ -30,13 +30,13 @@ def fetch_papers(keyword, max_results=10):
 
 def download_pdf(url: str, save_path: str) -> None:
     """Download a PDF from URL and save to local path."""
-    with requests.get(url, stream=True) as response:
-        with open(save_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
+    response = requests.get(url, stream=True, timeout=10)
+    with open(save_path, 'wb') as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
 
 if __name__ == "__main__":
-    save_path = "C:\\main\\GitHub\\documentReviewSystem\\data"
-    papers = fetch_papers("machine learning", 10)
-    for paper in tqdm(papers, desc="Downloading papers..."):
-        download_pdf(paper["pdf_url"], save_path=save_path+f"\\{re.sub(r":", r"_", paper["title"])}.pdf")
+    save_path = "C:\\main\\Git\\uni_practice\\edu-auditor\\DataDocs"
+    papers = fetch_papers("LLM", 10)
+    for paper in tqdm(papers, desc="Downloading papers..."):    
+        download_pdf(paper["pdf_url"], save_path=save_path+f"\\{re.sub(r"[:?,]", r"_", paper["title"])}.pdf")

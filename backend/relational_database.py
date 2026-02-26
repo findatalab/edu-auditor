@@ -23,7 +23,7 @@ DEVICE = "cpu"
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 engine = create_engine(f"postgresql://postgres:{DB_PASSWORD}@localhost/prototypedocumentreviewsystem")
 
-index = faiss.read_index("C:\\main\\GitHub\\documentReviewSystem\\project_data\\initial_vector_db.index")
+# index = faiss.read_index("C:\\main\\Git\\uni_practice\\edu-auditor\\vector_db.index")
 
 text_embedding = TextEmbedding(model_name='Snowflake/snowflake-arctic-embed-l-v2.0')
 model = text_embedding.model
@@ -57,7 +57,7 @@ def similarity_search(request: SimilarityRequest):
     model_request = [request.text]
     print(f"Model request: ")
     tokens = tokenizer(model_request, return_tensors='pt',
-                          padding=True, truncation=True, max_length=8000)
+                       padding=True, truncation=True, max_length=8000)
     device_tokens = {k: v.to(device=DEVICE) for k, v in tokens.items()}
     docs_embeddings = model(**device_tokens)[0][:, 0].detach().cpu().numpy()
     D, I = index.search(normalize_vectors(docs_embeddings), 5)
